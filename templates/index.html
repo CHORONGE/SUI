@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>미디어 플레이어</title>
+</head>
+<body>
+    <h1>미디어 목록</h1>
+    <ul id="media-list">
+        {% for file in files %}
+        <li>
+            <a href="#" onclick="playMedia('{{ file }}')">{{ file }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <div id="player-container">
+        <audio id="audio-player" controls style="display:none;"></audio>
+        <video id="video-player" controls style="display:none; width: 100%; max-width: 600px;"></video>
+    </div>
+
+    <script>
+        function playMedia(filename) {
+            const audioPlayer = document.getElementById("audio-player");
+            const videoPlayer = document.getElementById("video-player");
+
+            const fileExt = filename.split('.').pop().toLowerCase();
+            const filePath = `/media/${filename}`;
+
+            if (['mp3', 'wav', 'ogg'].includes(fileExt)) {
+                audioPlayer.src = filePath;
+                audioPlayer.style.display = "block";
+                videoPlayer.style.display = "none";
+                audioPlayer.play();
+            } else if (['mp4', 'webm', 'ogg'].includes(fileExt)) {
+                videoPlayer.src = filePath;
+                videoPlayer.style.display = "block";
+                audioPlayer.style.display = "none";
+                videoPlayer.play();
+            }
+        }
+    </script>
+</body>
+</html>
